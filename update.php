@@ -56,7 +56,7 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
         </div>
         
         <!-- Details on Right -->
-        <div class="md:w-2/3 space-y-4 text-center" id="details-right">
+        <div class="md:w-2/3 space-y-4" id="details-right">
           <div id="current-details" class="space-y-2">
             <!-- Current URL, visits -->
           </div>
@@ -80,6 +80,12 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
             required
             class="w-full rounded-full border-4 border-green-500 px-8 py-5 text-3xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
           />
+          <button 
+            type="submit" 
+            class="absolute right-0 mr-2 bg-green-600 hover:bg-green-700 text-white font-bold px-12 py-4 rounded-full text-3xl transition duration-300"
+          >
+            Update
+          </button>
         </div>
 
         <!-- Side-by-Side Email & Passcode -->
@@ -109,12 +115,6 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
             />
           </div>
         </div>
-
-        <!-- Update Button -->
-        <button type="submit"
-                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-full text-3xl transition">
-          Update
-        </button>
       </form>
       <div id="result" class="mt-6 text-center"></div>
     </div>
@@ -148,15 +148,15 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
               <p class="text-2xl"><strong>Current URL:</strong>
                 <a href="${data.original_url}" target="_blank" class="text-green-600 underline">${data.original_url}</a>
               </p>
-              <p class="text-xl">Visits: <span class="text-green-600">${data.visit_count}</span></p>
+              <p class="text-2xl"><strong>Visits: </strong><span class="text-green-600">${data.visit_count}</span></p>
             `;
             // Short URL + copy
             const shortURL = window.location.protocol + '//' + window.location.host + '/' + shortCode;
             copyUrlContainer.innerHTML = `
+              <p><span class="font-bold text-xl">Short URL</span></p>
               <div class="flex items-center justify-center space-x-4">
-                <span class="font-medium text-xl">Short URL:</span>
                 <input id="short-url" type="text" value="${shortURL}" readonly
-                       class="w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none text-gray-800 text-xl" />
+                       class="w-full pr-3 py-2 border border-gray-300 rounded focus:outline-none text-gray-800 text-xl" />
                 <button id="copy-btn"
                         class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded text-xl transition">
                   Copy
