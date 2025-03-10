@@ -1,0 +1,17 @@
+Options +FollowSymLinks
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# If the request is for an existing file or directory, don't rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Exclude main PHP scripts from rewriting
+RewriteRule ^(index|process|redirect|update)\.php$ - [L]
+
+# Map /u/SHORTCODE to update.php?code=SHORTCODE
+RewriteRule ^u/([a-zA-Z0-9]+)/?$ update.php?code=$1 [L,QSA]
+
+# Map any other alphanumeric URL to redirect.php?code=SHORTCODE
+RewriteRule ^([a-zA-Z0-9]+)/?$ redirect.php?code=$1 [L,QSA]
