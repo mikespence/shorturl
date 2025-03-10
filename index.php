@@ -43,13 +43,14 @@
         if (data.error) {
           resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
         } else {
+          console.log(data);
           // Hide the form once the link has been created
           form.style.display = "none";
           resultDiv.innerHTML = `
             <p class="mb-4 text-center">
               <a href="${data.short_url}" class="text-blue-500 underline">${data.short_url}</a>
             </p>
-            <img src="${data.qr_code_url}" alt="QR Code" class="mx-auto mb-4">
+            <img src="${data.qr_code}" alt="QR Code" class="mx-auto mb-4">
             <p class="text-gray-600 text-center">Your URL has been shortened!</p>
             <p class="text-gray-500 text-center">Update your URL later at <a href="${data.update_url}" class="underline">${data.update_url}</a></p>
             <button id="new-link" class="mt-4 w-full bg-green-500 text-white p-2 rounded">Create Another Link</button>

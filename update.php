@@ -1,6 +1,6 @@
 <?php
 // update.php – Front End Update Page
-// The short code is provided via the URL query parameter.
+// Get the short code from the query parameter.
 $code = isset($_GET['code']) ? $_GET['code'] : '';
 ?>
 <!DOCTYPE html>
@@ -13,10 +13,11 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
 <body class="bg-gray-100">
   <div class="max-w-xl mx-auto p-4 mt-10 bg-white shadow rounded">
     <h1 class="text-2xl font-bold mb-4 text-center">Update Your URL</h1>
+    
     <!-- Display current URL and visit count -->
     <div id="current-details" class="mb-4 text-center font-medium text-gray-700"></div>
     
-    <!-- Form for updating: New URL field left blank -->
+    <!-- Update form: New URL is blank -->
     <form id="update-form" class="space-y-4">
       <div>
         <label class="block text-gray-700">New URL:</label>
@@ -32,7 +33,12 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
       </div>
       <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Update URL</button>
     </form>
+    
+    <!-- Result message area -->
     <div id="result" class="mt-4"></div>
+    
+    <!-- Container for the QR code -->
+    <div id="qr-code-container" class="mt-4 text-center"></div>
   </div>
   
   <script>
@@ -42,10 +48,11 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
     if (!shortCode) {
       document.getElementById("result").innerHTML = '<p class="text-red-500">No code provided in URL.</p>';
     } else {
-      // Fetch the current URL details from process_update.php via GET.
+      // Fetch the current URL details (and visit count) from process_update.php via GET.
       fetch(`/process_update.php?code=${shortCode}`)
         .then(response => response.json())
         .then(data => {
+          console.log(data);
           if (data.error) {
             document.getElementById("result").innerHTML = `<p class="text-red-500">${data.error}</p>`;
           } else {
@@ -53,13 +60,14 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
             document.getElementById("current-details").innerHTML = 
               `<strong>Current URL:</strong> ${data.original_url}<br>
                <strong>Visits:</strong> ${data.visit_count}`;
-            // Leave the "New URL" field blank for user input.
           }
+          document.getElementById("qr-code-container").innerHTML = `<img src="${data.qr_code}" alt="QR Code" class="mx-auto">`;
         })
         .catch(error => {
           console.error("Error fetching current details:", error);
           document.getElementById("result").innerHTML = '<p class="text-red-500">Error fetching data.</p>';
         });
+      
     }
     
     // Handle form submission via fetch POST request.
