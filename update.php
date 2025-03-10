@@ -1,123 +1,163 @@
 <?php
-// update.php – Front End Update Page (Split-Screen Purple + White Layout)
+// update.php – QR on the left, details on the right
 $code = isset($_GET['code']) ? $_GET['code'] : '';
-// update.php
-require 'header.php';
-printHeader("Update Your URL");
-
-// Then your split-screen layout code here...
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Your URL</title>
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border-left-color: #10B981; /* Green-500 */
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-200 to-green-50 flex flex-col items-center justify-center">
 
-<!-- Your existing update page code (the left purple panel showing the short URL, etc. and the right panel with the form) -->
+  <!-- Top navigation (optional) -->
+  <header class="absolute top-0 w-full flex justify-end items-center p-6">
+    <div class="space-x-6 text-gray-700 text-xl">
+      <a href="#" class="hover:underline">Login</a>
+      <a href="#" class="hover:underline">Sign up</a>
+    </div>
+  </header>
 
-  <!-- Container: Splits into two panels on md+ screens -->
-  <div class="flex flex-col md:flex-row min-h-screen">
-
-    <!-- Left Panel (Purple Gradient) -->
-    <div class="md:w-1/2 bg-gradient-to-br from-purple-600 to-purple-900 text-white flex flex-col items-center justify-center p-8 space-y-6">
-      <!-- Optional brand graphic or heading -->
-      <div class="text-center">
-        <img src="https://source.unsplash.com/120x120/?link,brand" alt="Brand" class="mx-auto mb-4 rounded-full shadow-md" />
-        <h1 class="text-2xl font-bold">Your Short URL</h1>
-      </div>
-      
-      <!-- Current URL Details -->
-      <div id="current-details" class="text-center space-y-2">
-        <!-- We'll fill this with the current URL and visit count dynamically -->
-      </div>
-
-      <!-- Copy-to-Clipboard Container -->
-      <div id="copy-url-container" class="text-center">
-        <!-- We'll fill this with the short URL input and copy button -->
-      </div>
-
-      <!-- QR Code Container -->
-      <div id="qr-code-container" class="mt-4">
-        <!-- We'll fill this with the QR code -->
-      </div>
-
-      <!-- Spinner for loading data -->
-      <div id="spinner" class="mt-6 hidden">
+  <!-- Main Container -->
+  <div class="w-full max-w-5xl px-6 flex flex-col items-center">
+    <!-- Heading -->
+    <h1 class="text-7xl font-bold text-green-700 mb-12 text-center">NiceLink</h1>
+    
+    <!-- White Card: QR on left, details on right -->
+    <div class="w-full max-w-3xl bg-white bg-opacity-80 rounded-3xl p-8 mb-12 shadow-lg">
+      <div id="spinner" class="hidden mb-6 flex justify-center">
         <div class="spinner"></div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center md:items-start justify-center space-y-6 md:space-y-0 md:space-x-8">
+        
+        <!-- QR Code on Left -->
+        <div id="qr-code-container" class="flex justify-center md:w-1/3">
+          <!-- Filled dynamically -->
+        </div>
+        
+        <!-- Details on Right -->
+        <div class="md:w-2/3 space-y-4 text-center" id="details-right">
+          <div id="current-details" class="space-y-2">
+            <!-- Current URL, visits -->
+          </div>
+          <div id="copy-url-container">
+            <!-- Short URL + copy button -->
+          </div>
+          <div id="details-error" class="text-red-500"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Right Panel (White Background) -->
-    <div class="md:w-1/2 bg-white flex items-center justify-center p-8">
-      <div class="w-full max-w-md">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Update Your URL</h2>
-        <form id="update-form" class="space-y-6">
-          <div>
-            <label for="new_url" class="block text-gray-700 text-lg font-semibold mb-2">New URL</label>
-            <input type="url" id="new_url" name="new_url" placeholder="Enter your new URL" required
-                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+    <!-- Update Form (scaled up for bigger fields) -->
+    <div class="transform scale-110 w-full max-w-3xl">
+      <form id="update-form" class="space-y-10">
+        <!-- Large row for New URL -->
+        <div class="w-full flex items-center relative">
+          <input 
+            type="url" 
+            name="new_url" 
+            placeholder="Enter your new URL" 
+            required
+            class="w-full rounded-full border-4 border-green-500 px-8 py-5 text-3xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+          />
+        </div>
+
+        <!-- Side-by-Side Email & Passcode -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <!-- Email Field -->
+          <div class="flex flex-col">
+            <label for="email" class="text-gray-700 font-semibold text-2xl mb-3">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Enter your email" 
+              required
+              class="rounded-full border-4 border-green-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+            />
           </div>
-          <div>
-            <label for="email" class="block text-gray-700 text-lg font-semibold mb-2">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required
-                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+          <!-- Passcode Field -->
+          <div class="flex flex-col">
+            <label for="passcode" class="text-gray-700 font-semibold text-2xl mb-3">Passcode</label>
+            <input 
+              type="password" 
+              id="passcode" 
+              name="passcode" 
+              placeholder="Enter your passcode"
+              required
+              class="rounded-full border-4 border-green-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+            />
           </div>
-          <div>
-            <label for="passcode" class="block text-gray-700 text-lg font-semibold mb-2">Passcode</label>
-            <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required
-                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
-          </div>
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-full transition duration-300 text-xl">
-            Update URL
-          </button>
-        </form>
-        <!-- Result / Error Messages -->
-        <div id="result" class="mt-6 text-center"></div>
-      </div>
+        </div>
+
+        <!-- Update Button -->
+        <button type="submit"
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-full text-3xl transition">
+          Update
+        </button>
+      </form>
+      <div id="result" class="mt-6 text-center"></div>
     </div>
 
   </div>
-  
+
   <script>
     const shortCode = "<?php echo htmlspecialchars($code); ?>";
+    const spinner = document.getElementById("spinner");
     const currentDetailsDiv = document.getElementById("current-details");
     const copyUrlContainer = document.getElementById("copy-url-container");
     const qrCodeContainer = document.getElementById("qr-code-container");
+    const detailsErrorDiv = document.getElementById("details-error");
+    const updateForm = document.getElementById("update-form");
     const resultDiv = document.getElementById("result");
-    const spinner = document.getElementById("spinner");
-    const form = document.getElementById("update-form");
 
     if (!shortCode) {
-      resultDiv.innerHTML = '<p class="text-red-500">No code provided in URL.</p>';
+      detailsErrorDiv.innerText = "No code provided in URL.";
     } else {
-      // Show spinner while fetching
       spinner.classList.remove("hidden");
-
-      // Fetch current URL details (and visit count) from process_update.php via GET
       fetch(`/process_update.php?code=${shortCode}`)
         .then(response => response.json())
         .then(data => {
           spinner.classList.add("hidden");
           if (data.error) {
-            resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
+            detailsErrorDiv.innerText = data.error;
           } else {
-            // Display current URL and visit count
+            // Current URL & Visits
             currentDetailsDiv.innerHTML = `
-              <p class="text-lg">
-                <strong>Current URL:</strong> 
-                <a href="${data.original_url}" target="_blank" class="text-lime-300 underline">
-                  ${data.original_url}
-                </a>
+              <p class="text-2xl"><strong>Current URL:</strong>
+                <a href="${data.original_url}" target="_blank" class="text-green-600 underline">${data.original_url}</a>
               </p>
-              <p class="text-sm">
-                Visits: <span class="text-lime-300">${data.visit_count}</span>
-              </p>
+              <p class="text-xl">Visits: <span class="text-green-600">${data.visit_count}</span></p>
             `;
-
-            // Create short URL and a copy-to-clipboard input
+            // Short URL + copy
             const shortURL = window.location.protocol + '//' + window.location.host + '/' + shortCode;
             copyUrlContainer.innerHTML = `
-              <div class="flex items-center justify-center space-x-2">
-                <span class="font-medium">Short URL:</span>
-                <input id="short-url" type="text" value="${shortURL}" readonly 
-                       class="w-56 px-2 py-1 border border-gray-300 rounded text-gray-800 focus:outline-none">
-                <button id="copy-btn" 
-                        class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded transition">
+              <div class="flex items-center justify-center space-x-4">
+                <span class="font-medium text-xl">Short URL:</span>
+                <input id="short-url" type="text" value="${shortURL}" readonly
+                       class="w-64 px-3 py-2 border border-gray-300 rounded focus:outline-none text-gray-800 text-xl" />
+                <button id="copy-btn"
+                        class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded text-xl transition">
                   Copy
                 </button>
               </div>
@@ -130,26 +170,24 @@ printHeader("Update Your URL");
                 setTimeout(() => { this.innerText = "Copy"; }, 2000);
               });
             });
-
-            // Generate QR Code using external API
-            const qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(shortURL) + "&size=300x300";
+            // QR Code
             qrCodeContainer.innerHTML = `
-              <img src="${qrCodeUrl}" alt="QR Code" 
-                   class="mx-auto rounded-md shadow-md transition-transform duration-300 hover:scale-105">
+              <img src="${data.qr_code}" alt="QR Code"
+                   class="mx-auto rounded-md shadow-md transition-transform duration-300 hover:scale-105" />
             `;
           }
         })
         .catch(error => {
           spinner.classList.add("hidden");
-          console.error("Error fetching details:", error);
-          resultDiv.innerHTML = '<p class="text-red-500">Error fetching data.</p>';
+          detailsErrorDiv.innerText = "Error fetching data.";
+          console.error(error);
         });
     }
 
-    // Handle form submission via POST
-    form.addEventListener("submit", function(e) {
+    // Handle Update Submission
+    updateForm.addEventListener("submit", function(e) {
       e.preventDefault();
-      const formData = new FormData(form);
+      const formData = new FormData(updateForm);
       fetch(`/process_update.php?code=${shortCode}`, {
         method: "POST",
         body: formData
@@ -159,15 +197,15 @@ printHeader("Update Your URL");
         if (data.error) {
           resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
         } else if (data.message) {
-          resultDiv.innerHTML = `<p class="text-green-600">${data.message}</p>`;
+          resultDiv.innerHTML = `<p class="text-green-700 text-2xl">${data.message}</p>`;
         }
       })
       .catch(error => {
-        console.error("Error updating URL:", error);
+        console.error(error);
         resultDiv.innerHTML = '<p class="text-red-500">Error updating URL.</p>';
       });
     });
   </script>
 
-<?php
-printFooter();
+</body>
+</html>

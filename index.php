@@ -1,5 +1,5 @@
 <?php
-// index.php – Larger input, side-by-side email & custom code fields
+// index.php – Green Color Scheme with Bigger Form Fields
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,101 +15,142 @@
     }
   </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col items-center justify-center">
+<body class="min-h-screen bg-gradient-to-br from-green-200 to-green-50 flex flex-col items-center justify-center">
 
   <!-- Top navigation / branding (optional) -->
-  <header class="absolute top-0 w-full flex justify-end items-center p-4">
-    <div class="space-x-4 text-gray-700">
+  <header class="absolute top-0 w-full flex justify-end items-center p-6">
+    <div class="space-x-6 text-gray-700 text-xl">
       <a href="#" class="hover:underline">Login</a>
       <a href="#" class="hover:underline">Sign up</a>
     </div>
   </header>
 
   <!-- Main Container -->
-  <div class="w-full max-w-4xl px-4 flex flex-col items-center">
-
+  <div class="w-full max-w-5xl px-6 flex flex-col items-center">
     <!-- Branding or Big Logo -->
-    <h1 class="text-6xl font-bold text-indigo-700 mb-12 text-center">NiceLink</h1>
+    <h1 class="text-7xl font-bold text-green-700 mb-16 text-center">NiceLink</h1>
     
-    <!-- Form for creating a short URL -->
-    <form action="process.php" method="POST" class="w-full flex flex-col items-center space-y-8">
-      
-      <!-- Large URL Input -->
-      <div class="w-full flex items-center relative">
-        <input 
-          type="url" 
-          name="original_url" 
-          placeholder="Enter link here" 
-          required
-          class="w-full rounded-full border-2 border-indigo-500 px-6 py-5 text-2xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
-        />
-        <button 
-          type="submit" 
-          class="absolute right-0 mr-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-10 py-4 rounded-full text-2xl transition duration-300"
-        >
-          Shorten
-        </button>
-      </div>
-      
-      <!-- Side-by-side Email & Custom Code -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        <!-- Email Field -->
-        <div class="flex flex-col">
-          <label for="email" class="text-gray-700 font-semibold mb-2 text-lg">Email (for updates)</label>
+    <!-- Form Container (scaled up 10%) -->
+    <div class="transform scale-110">
+      <form id="shorten-form" class="space-y-4">
+        <!-- Big URL Input with Large Button -->
+        <div class="w-full flex items-center relative">
           <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            placeholder="Enter your email" 
+            type="url" 
+            name="original_url" 
+            placeholder="Enter your link here" 
             required
-            class="rounded-full border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+            class="w-full rounded-full border-4 border-green-500 px-8 py-6 text-3xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
           />
+          <button 
+            type="submit" 
+            class="absolute right-0 mr-2 bg-green-600 hover:bg-green-700 text-white font-bold px-12 py-5 rounded-full text-3xl transition duration-300"
+          >
+            Create
+          </button>
         </div>
         
-        <!-- Custom Short Code Field with prefix -->
-        <div class="flex flex-col">
-          <label for="custom_code" class="text-gray-700 font-semibold mb-2 text-lg">Custom Short Code (optional)</label>
-          <!-- A container that includes the prefix and the text input -->
-          <div class="flex items-center rounded-full border border-gray-300 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-400 transition">
-            <span class="text-gray-600">nicelink.co.uk/</span>
+        <!-- Side-by-Side Email & Custom Code Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <!-- Email Field -->
+          <div class="flex flex-col">
+            <label for="email" class="text-gray-700 font-semibold text-2xl mb-3">Email (for updates)</label>
             <input 
-              type="text" 
-              id="custom_code" 
-              name="custom_code" 
-              placeholder="e.g. mylink"
-              class="ml-2 flex-1 focus:outline-none text-lg"
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Enter your email" 
+              required
+              class="rounded-full border-4 border-gray-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
             />
           </div>
+          <!-- Custom Short Code Field with Prefix -->
+          <div class="flex flex-col">
+            <label for="custom_code" class="text-gray-700 font-semibold text-2xl mb-3">Custom Short Code (optional)</label>
+            <div class="flex items-center rounded-full border-4 border-gray-300 px-6 py-4 focus-within:ring-4 focus-within:ring-green-400 transition">
+              <span class="text-gray-600 text-2xl">nicelink.co.uk/</span>
+              <input 
+                type="text" 
+                id="custom_code" 
+                name="custom_code" 
+                placeholder="mylink"
+                class="ml-4 flex-1 bg-transparent focus:outline-none text-2xl text-gray-800"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
-
-    <!-- Optional Info / Features -->
-    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      </form>
+      <div id="result" class="mt-4"></div>
+    </div>
+    
+    <!-- Info / Features Section -->
+    <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
       <div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Custom URL</h3>
-        <p class="text-gray-600">
-          Create a unique and meaningful short link.  
-          Specify the alias to reflect your brand or content.
+        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Custom URL</h3>
+        <p class="text-gray-600 text-xl">
+          Create a unique alias that reflects your brand.
         </p>
       </div>
       <div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Analytics</h3>
-        <p class="text-gray-600">
-          Track how many times your link was visited.  
-          Gain insights into user engagement.
+        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Analytics</h3>
+        <p class="text-gray-600 text-xl">
+          Track link clicks and engagement effortlessly.
         </p>
       </div>
       <div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Updates</h3>
-        <p class="text-gray-600">
-          Update your short URL anytime.  
-          Just use your email and passcode to change the destination.
+        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Easy Updates</h3>
+        <p class="text-gray-600 text-xl">
+          Modify your destination anytime with your email & passcode.
         </p>
       </div>
     </div>
 
   </div>
-
+  <script>
+    document.getElementById("shorten-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      fetch("process.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        const resultDiv = document.getElementById("result");
+        if (data.error) {
+          resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
+        } else {
+          console.log(data);
+          // Hide the form once the link has been created
+          form.style.display = "none";
+          resultDiv.innerHTML = `
+            <p class="mb-4 text-center">
+              <a href="${data.short_url}" class="text-blue-500 underline">${data.short_url}</a>
+            </p>
+            <img src="${data.qr_code}" alt="QR Code" class="mx-auto mb-4">
+            <p class="text-gray-600 text-center">Your URL has been shortened!</p>
+            <p class="text-gray-500 text-center">Update your URL later at <a href="${data.update_url}" class="underline">${data.update_url}</a></p>
+            <button id="new-link" class="mt-4 w-full bg-green-500 text-white py-4 rounded-full transition duration-300 text-xl">Create Another Link</button>
+          `;
+          
+          // Set up the "Create Another Link" button to show the form again
+          document.getElementById("new-link").addEventListener("click", function() {
+            // Clear the result div
+            resultDiv.innerHTML = "";
+            // Show and reset the form
+            form.style.display = "block";
+            form.reset();
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("result").innerHTML = `<p class="text-red-500">An error occurred.</p>`;
+      });
+    });
+  </script>
 </body>
 </html>
