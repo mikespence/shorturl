@@ -1,32 +1,15 @@
 <?php
 // update.php – Front End Update Page (Split-Screen Purple + White Layout)
 $code = isset($_GET['code']) ? $_GET['code'] : '';
+// update.php
+require 'header.php';
+printHeader("Update Your URL");
+
+// Then your split-screen layout code here...
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Update Your URL</title>
-  <!-- Google Font: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border-left-color: #6366f1; /* Indigo-500 */
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
-</head>
-<body class="min-h-screen bg-gray-100">
+
+<!-- Your existing update page code (the left purple panel showing the short URL, etc. and the right panel with the form) -->
+
   <!-- Container: Splits into two panels on md+ screens -->
   <div class="flex flex-col md:flex-row min-h-screen">
 
@@ -185,5 +168,6 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
       });
     });
   </script>
-</body>
-</html>
+
+<?php
+printFooter();
