@@ -17,14 +17,6 @@
 </head>
 <body class="min-h-screen bg-gradient-to-br from-green-200 to-green-50 flex flex-col items-center justify-center">
 
-  <!-- Top navigation / branding (optional) -->
-  <header class="absolute top-0 w-full flex justify-end items-center p-6">
-    <div class="space-x-6 text-gray-700 text-xl">
-      <a href="#" class="hover:underline">Login</a>
-      <a href="#" class="hover:underline">Sign up</a>
-    </div>
-  </header>
-
   <!-- Main Container -->
   <div class="w-full max-w-5xl px-6 flex flex-col items-center">
     <!-- Branding or Big Logo -->
@@ -82,28 +74,14 @@
       </form>
       <div id="result" class="mt-4"></div>
     </div>
-    
-    <!-- Info / Features Section -->
-    <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-      <div>
-        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Custom URL</h3>
-        <p class="text-gray-600 text-xl">
-          Create a unique alias that reflects your brand.
-        </p>
-      </div>
-      <div>
-        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Analytics</h3>
-        <p class="text-gray-600 text-xl">
-          Track link clicks and engagement effortlessly.
-        </p>
-      </div>
-      <div>
-        <h3 class="text-3xl font-semibold text-gray-800 mb-3">Easy Updates</h3>
-        <p class="text-gray-600 text-xl">
-          Modify your destination anytime with your email & passcode.
-        </p>
-      </div>
-    </div>
+
+    <!-- SEO Copy Section -->
+    <section class="mt-16 text-center max-w-3xl">
+      <h2 class="text-4xl font-bold text-green-700 mb-4">The Best Free URL Shortener</h2>
+      <p class="text-xl text-gray-700">
+        NiceLink offers an easy, fast, and reliable way to shorten your URLs. Whether you're sharing on social media, in emails, or on your website, our service lets you create custom short links that are both memorable and trackable. Enjoy real-time analytics and the freedom to update your destination anytime. Try NiceLink today and transform your long URLs into powerful, branded links!
+      </p>
+    </section>
 
   </div>
   <script>

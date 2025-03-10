@@ -1,3 +1,4 @@
+<meta name="robots" content="noindex, nofollow">
 <?php
 // redirect.php
 require 'config.php';

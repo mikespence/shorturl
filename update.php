@@ -5,6 +5,7 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8">
   <title>Update Your URL</title>
   <!-- Google Font: Inter -->
@@ -29,14 +30,6 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-green-200 to-green-50 flex flex-col items-center justify-center">
-
-  <!-- Top navigation (optional) -->
-  <header class="absolute top-0 w-full flex justify-end items-center p-6">
-    <div class="space-x-6 text-gray-700 text-xl">
-      <a href="#" class="hover:underline">Login</a>
-      <a href="#" class="hover:underline">Sign up</a>
-    </div>
-  </header>
 
   <!-- Main Container -->
   <div class="w-full max-w-5xl px-6 flex flex-col items-center">
