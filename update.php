@@ -45,27 +45,27 @@ printHeader("Update Your URL");
     <!-- Right Panel (White Background) -->
     <div class="md:w-1/2 bg-white flex items-center justify-center p-8">
       <div class="w-full max-w-md">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Update Your URL</h2>
-        
-        <!-- Update Form -->
-        <form id="update-form" class="space-y-5">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Update Your URL</h2>
+        <form id="update-form" class="space-y-6">
           <div>
-            <label for="new_url" class="block text-gray-700 font-medium mb-1">New URL</label>
-            <input type="url" id="new_url" name="new_url" placeholder="Enter your new URL" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <label for="new_url" class="block text-gray-700 text-lg font-semibold mb-2">New URL</label>
+            <input type="url" id="new_url" name="new_url" placeholder="Enter your new URL" required
+                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
           </div>
           <div>
-            <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <label for="email" class="block text-gray-700 text-lg font-semibold mb-2">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required
+                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
           </div>
           <div>
-            <label for="passcode" class="block text-gray-700 font-medium mb-1">Passcode</label>
-            <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <label for="passcode" class="block text-gray-700 text-lg font-semibold mb-2">Passcode</label>
+            <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required
+                   class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
           </div>
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded transition duration-300">
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-full transition duration-300 text-xl">
             Update URL
           </button>
         </form>
-
         <!-- Result / Error Messages -->
         <div id="result" class="mt-6 text-center"></div>
       </div>

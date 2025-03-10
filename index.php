@@ -23,21 +23,25 @@ printHeader("Create a Short URL"); // Start the HTML, pass the page title
   <!-- Right Panel (White) -->
   <div class="md:w-1/2 bg-white flex items-center justify-center p-8">
     <div class="w-full max-w-md">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Create a Short URL</h2>
-      <form id="shorten-form" class="space-y-4">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create a Short URL</h2>
+      <form action="process.php" method="POST" class="space-y-6">
         <div>
-          <label for="original_url" class="block text-gray-700 font-medium mb-1">Original URL</label>
-          <input type="url" id="original_url" name="original_url" placeholder="https://example.com" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <label for="original_url" class="block text-gray-700 text-lg font-semibold mb-2">Long URL</label>
+          <input type="url" id="original_url" name="original_url" placeholder="https://MyVeryLongLink.com/this/that/the-other" required
+                 class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
         </div>
         <div>
-          <label for="email" class="block text-gray-700 font-medium mb-1">Email (for updates)</label>
-          <input type="email" id="email" name="email" placeholder="Enter your email" required class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <label for="email" class="block text-gray-700 text-lg font-semibold mb-2">Email (so you can make changes)</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required
+                 class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
         </div>
         <div>
-          <label for="custom_code" class="block text-gray-700 font-medium mb-1">Custom Short Code (optional)</label>
-          <input type="text" id="custom_code" name="custom_code" placeholder="e.g. mylink" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <label for="custom_code" class="block text-gray-700 text-lg font-semibold mb-2">Custom Short Code (optional)</label>
+          <input type="text" id="custom_code" name="custom_code" placeholder="e.g. mylink"
+                 class="w-full px-5 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
         </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded transition duration-300">
+        <button type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-full transition duration-300 text-xl">
           Create Short URL
         </button>
       </form>
