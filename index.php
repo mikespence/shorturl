@@ -9,13 +9,14 @@ printHeader("Create a Short URL"); // Start the HTML, pass the page title
 <div class="flex flex-col md:flex-row min-h-screen">
 
   <!-- Left Panel (Purple) -->
-  <div class="md:w-1/2 bg-gradient-to-br from-purple-600 to-purple-900 text-white flex items-center justify-center p-8">
+  <!-- Left Panel (Purple Gradient) -->
+  <div class="md:w-1/2 bg-gradient-to-br from-purple-600 to-purple-900 text-white flex flex-col items-center justify-center p-8">
     <div class="max-w-md text-center space-y-6">
-      <h1 class="text-3xl font-bold">Welcome to NiceLink</h1>
+      <h1 class="text-4xl font-bold">Welcome to NiceLink</h1>
       <p class="text-lg text-purple-100">
-        Create short, memorable links with a custom code, track visits, and manage updates easily!
+        Create short, memorable links with a custom code, track visits, and manage updates easily.
       </p>
-      <!-- Optional image or brand graphic -->
+      <!-- Optional brand graphic or illustration -->
       <img src="https://source.unsplash.com/400x300/?url,shortener" alt="Brand" class="mx-auto rounded shadow-md" />
     </div>
   </div>
@@ -24,7 +25,7 @@ printHeader("Create a Short URL"); // Start the HTML, pass the page title
   <div class="md:w-1/2 bg-white flex items-center justify-center p-8">
     <div class="w-full max-w-md">
       <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create a Short URL</h2>
-      <form action="process.php" method="POST" class="space-y-6">
+      <form id="shorten-form" class="space-y-4">
         <div>
           <label for="original_url" class="block text-gray-700 text-lg font-semibold mb-2">Long URL</label>
           <input type="url" id="original_url" name="original_url" placeholder="https://MyVeryLongLink.com/this/that/the-other" required
@@ -80,7 +81,7 @@ printHeader("Create a Short URL"); // Start the HTML, pass the page title
           <img src="${data.qr_code}" alt="QR Code" class="mx-auto mb-4">
           <p class="text-gray-600 text-center">Your URL has been shortened!</p>
           <p class="text-gray-500 text-center">Update your URL later at <a href="${data.update_url}" class="underline">${data.update_url}</a></p>
-          <button id="new-link" class="mt-4 w-full bg-green-500 text-white p-2 rounded">Create Another Link</button>
+          <button id="new-link" class="mt-4 w-full bg-green-500 text-white py-4 rounded-full transition duration-300 text-xl">Create Another Link</button>
         `;
         
         // Set up the "Create Another Link" button to show the form again
