@@ -1,44 +1,50 @@
 <?php
 // update.php – Front End Update Page
-// Get the short code from the query parameter.
 $code = isset($_GET['code']) ? $_GET['code'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Update URL</title>
+  <title>Update Your URL</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-xl mx-auto p-4 mt-10 bg-white shadow rounded">
-    <h1 class="text-2xl font-bold mb-4 text-center">Update Your URL</h1>
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center">
+  <div class="w-full max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Update Your URL</h1>
     
     <!-- Display current URL and visit count -->
-    <div id="current-details" class="mb-4 text-center font-medium text-gray-700"></div>
+    <div id="current-details" class="mb-4 text-center text-gray-700"></div>
     
-    <!-- Update form: New URL is blank -->
-    <form id="update-form" class="space-y-4">
+    <!-- Update Form -->
+    <form id="update-form" class="space-y-5">
       <div>
-        <label class="block text-gray-700">New URL:</label>
-        <input type="url" name="new_url" class="w-full border rounded p-2" placeholder="Enter new URL" required>
+        <label for="new_url" class="block text-gray-700 font-semibold mb-1">New URL</label>
+        <input type="url" id="new_url" name="new_url" placeholder="Enter your new URL" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
       </div>
       <div>
-        <label class="block text-gray-700">Email:</label>
-        <input type="email" name="email" class="w-full border rounded p-2" placeholder="Enter your email" required>
+        <label for="email" class="block text-gray-700 font-semibold mb-1">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
       </div>
       <div>
-        <label class="block text-gray-700">Passcode:</label>
-        <input type="password" name="passcode" class="w-full border rounded p-2" placeholder="Enter your passcode" required>
+        <label for="passcode" class="block text-gray-700 font-semibold mb-1">Passcode</label>
+        <input type="password" id="passcode" name="passcode" placeholder="Enter your passcode" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
       </div>
-      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Update URL</button>
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md transition duration-300">Update URL</button>
     </form>
     
-    <!-- Result message area -->
-    <div id="result" class="mt-4"></div>
+    <!-- Result Message -->
+    <div id="result" class="mt-6 text-center"></div>
     
-    <!-- Container for the QR code -->
-    <div id="qr-code-container" class="mt-4 text-center"></div>
+    <!-- QR Code Container -->
+    <div id="qr-code-container" class="mt-8 text-center"></div>
   </div>
   
   <script>
@@ -48,26 +54,28 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
     if (!shortCode) {
       document.getElementById("result").innerHTML = '<p class="text-red-500">No code provided in URL.</p>';
     } else {
-      // Fetch the current URL details (and visit count) from process_update.php via GET.
+      // Fetch the current URL details from process_update.php via GET.
       fetch(`/process_update.php?code=${shortCode}`)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           if (data.error) {
             document.getElementById("result").innerHTML = `<p class="text-red-500">${data.error}</p>`;
           } else {
             // Display the current URL and visit count.
             document.getElementById("current-details").innerHTML = 
-              `<strong>Current URL:</strong> ${data.original_url}<br>
-               <strong>Visits:</strong> ${data.visit_count}`;
+              `<p class="mb-1"><strong>Current URL:</strong> <span class="text-blue-600">${data.original_url}</span></p>
+               <p class="text-sm text-gray-600"><strong>Visits:</strong> ${data.visit_count}</p>`;
+            // Generate the short URL and corresponding QR code URL.
+            const shortURL = window.location.protocol + '//' + window.location.host + '/' + shortCode;
+            // You can either generate locally or use an external API; here's the external API version:
+            const qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(shortURL) + "&size=300x300";
+            document.getElementById("qr-code-container").innerHTML = `<img src="${qrCodeUrl}" alt="QR Code" class="mx-auto rounded-lg shadow-md">`;
           }
-          document.getElementById("qr-code-container").innerHTML = `<img src="${data.qr_code}" alt="QR Code" class="mx-auto">`;
         })
         .catch(error => {
           console.error("Error fetching current details:", error);
           document.getElementById("result").innerHTML = '<p class="text-red-500">Error fetching data.</p>';
         });
-      
     }
     
     // Handle form submission via fetch POST request.
