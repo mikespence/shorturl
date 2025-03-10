@@ -138,6 +138,7 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
       fetch(`/process_update.php?code=${shortCode}`)
         .then(response => response.json())
         .then(data => {
+          console.log(data);
           spinner.classList.add("hidden");
           if (data.error) {
             detailsErrorDiv.innerText = data.error;
