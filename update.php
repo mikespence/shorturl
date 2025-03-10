@@ -13,27 +13,27 @@ printHeader("Update Your URL");
   <!-- Container: Splits into two panels on md+ screens -->
   <div class="flex flex-col md:flex-row min-h-screen">
 
-    <!-- Left Panel (Purple Background) -->
-    <div class="md:w-1/2 bg-gradient-to-br from-purple-600 to-purple-900 text-white flex flex-col items-center justify-center p-8">
-      <!-- Title -->
-      <h1 class="text-3xl font-bold mb-6">Your Short URL</h1>
+    <!-- Left Panel (Purple Gradient) -->
+    <div class="md:w-1/2 bg-gradient-to-br from-purple-600 to-purple-900 text-white flex flex-col items-center justify-center p-8 space-y-6">
+      <!-- Optional brand graphic or heading -->
+      <div class="text-center">
+        <img src="https://source.unsplash.com/120x120/?link,brand" alt="Brand" class="mx-auto mb-4 rounded-full shadow-md" />
+        <h1 class="text-2xl font-bold">Your Short URL</h1>
+      </div>
       
       <!-- Current URL Details -->
-      <div id="current-details" class="text-center space-y-2 mb-6">
-        <!-- Filled dynamically: 
-             1) Current URL 
-             2) Visits -->
+      <div id="current-details" class="text-center space-y-2">
+        <!-- We'll fill this with the current URL and visit count dynamically -->
       </div>
 
       <!-- Copy-to-Clipboard Container -->
-      <div id="copy-url-container" class="mb-6">
-        <!-- Filled dynamically: 
-             Short URL + Copy Button -->
+      <div id="copy-url-container" class="text-center">
+        <!-- We'll fill this with the short URL input and copy button -->
       </div>
 
       <!-- QR Code Container -->
-      <div id="qr-code-container">
-        <!-- Filled dynamically: QR Code -->
+      <div id="qr-code-container" class="mt-4">
+        <!-- We'll fill this with the QR code -->
       </div>
 
       <!-- Spinner for loading data -->
