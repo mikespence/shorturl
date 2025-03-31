@@ -60,7 +60,7 @@
           <div class="flex flex-col">
             <label for="custom_code" class="text-gray-700 font-semibold text-2xl mb-3">Custom Short Code (optional)</label>
             <div class="flex items-center rounded-full border-4 border-gray-300 px-6 py-4 focus-within:ring-4 focus-within:ring-green-400 transition">
-              <span class="text-gray-600 text-2xl">ShortQR.app/</span>
+              <span class="text-gray-600 text-2xl">shortQR.app/</span>
               <input 
                 type="text" 
                 id="custom_code" 
