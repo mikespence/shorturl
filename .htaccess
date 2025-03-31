@@ -1,6 +1,7 @@
 Options +FollowSymLinks
 Options -MultiViews
 RewriteEngine On
+RewriteBase /
 
 # If the request is for an existing file or directory, don't rewrite
 RewriteCond %{REQUEST_FILENAME} !-f
