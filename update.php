@@ -34,7 +34,7 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
   <!-- Main Container -->
   <div class="w-full max-w-5xl px-6 flex flex-col items-center">
     <!-- Heading -->
-    <h1 class="text-7xl font-bold text-green-700 mb-12 text-center">NiceLink</h1>
+    <h1 class="text-7xl font-bold text-green-700 mb-12 text-center">ShortQR</h1>
     
     <!-- White Card: QR on left, details on right -->
     <div class="w-full max-w-3xl bg-white bg-opacity-80 rounded-3xl p-8 mb-12 shadow-lg">

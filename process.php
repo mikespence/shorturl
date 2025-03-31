@@ -84,7 +84,7 @@ $qrImageData = $result->getString(); // Binary data for the QR image
 
 // Send email via SendGrid
 $emailObj = new \SendGrid\Mail\Mail();
-$emailObj->setFrom("no-reply@nicelink.co.uk", "URL Shortener Service");
+$emailObj->setFrom("no-reply@shortqr.app", "ShortQR");
 $emailObj->setSubject("Your Short URL Information");
 $emailObj->addTo($email);  // The recipient email address
 
@@ -93,8 +93,7 @@ $emailContent = "Hello,\n\n"
     . "Short URL: $short_url\n"
     . "Update URL: $update_url\n"
     . "Your update passcode: $passcode_plain\n\n"
-    . "Keep this information safe. You will need the email and passcode to update your URL later.\n\n"
-    . "Best regards,\nURL Shortener Service";
+    . "Keep this information safe. You will need the email and passcode to update your URL later.\n\n";
 $emailObj->addContent("text/plain", $emailContent);
 
 $sendgrid = new \SendGrid($sendgrid_api_key);

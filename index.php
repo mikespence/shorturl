@@ -20,7 +20,7 @@
   <!-- Main Container -->
   <div class="w-full max-w-5xl px-6 flex flex-col items-center">
     <!-- Branding or Big Logo -->
-    <h1 class="text-7xl font-bold text-green-700 mb-16 text-center">NiceLink</h1>
+    <h1 class="text-7xl font-bold text-green-700 mb-16 text-center">ShortQR</h1>
     
     <!-- Form Container (scaled up 10%) -->
     <div class="transform scale-110">
@@ -60,7 +60,7 @@
           <div class="flex flex-col">
             <label for="custom_code" class="text-gray-700 font-semibold text-2xl mb-3">Custom Short Code (optional)</label>
             <div class="flex items-center rounded-full border-4 border-gray-300 px-6 py-4 focus-within:ring-4 focus-within:ring-green-400 transition">
-              <span class="text-gray-600 text-2xl">nicelink.co.uk/</span>
+              <span class="text-gray-600 text-2xl">ShortQR.app/</span>
               <input 
                 type="text" 
                 id="custom_code" 
@@ -79,7 +79,7 @@
     <section class="mt-16 text-center max-w-3xl">
       <h2 class="text-4xl font-bold text-green-700 mb-4">The Best Free URL Shortener</h2>
       <p class="text-xl text-gray-700">
-        NiceLink offers an easy, fast, and reliable way to shorten your URLs. Whether you're sharing on social media, in emails, or on your website, our service lets you create custom short links that are both memorable and trackable. Enjoy real-time analytics and the freedom to update your destination anytime. Try NiceLink today and transform your long URLs into powerful, branded links!
+        ShortQR offers an easy, fast, and reliable way to shorten your URLs. Whether you're sharing on social media, in emails, or on your website, our service lets you create custom short links that are both memorable and trackable. Enjoy real-time analytics and the freedom to update your destination anytime. Try ShortQR today and transform your long URLs into powerful, branded links!
       </p>
     </section>
 
