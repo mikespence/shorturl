@@ -46,7 +46,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           <!-- Email Field -->
           <div class="flex flex-col">
-            <label for="email" class="text-gray-700 font-semibold text-2xl mb-3">Email (for updates)</label>
+            <label for="email" class="text-gray-700 font-semibold text-2xl mb-3">Email (to make changes)</label>
             <input 
               type="email" 
               id="email" 
