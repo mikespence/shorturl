@@ -38,6 +38,7 @@ $short_url = $base_url . "/" . $short_code;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Generate the QR code for the short URL using your known working snippet.
     $qrCode = new QrCode(urlencode($short_url));
+    $qrCode->setSize(1000); // Sets the QR code to 1000x1000 pixels
     $writer = new PngWriter();
     $result = $writer->write($qrCode);
     $qrImageData = $result->getString(); // Binary data for the QR image
