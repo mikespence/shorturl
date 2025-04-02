@@ -149,7 +149,7 @@ $code = isset($_GET['code']) ? $_GET['code'] : '';
               <p><span class="font-bold text-xl">Short URL</span></p>
               <div class="flex items-center justify-center space-x-4">
                 <input id="short-url" type="text" value="${shortURL}" readonly
-                       class="w-full px-2 py-2 border border-gray-300 rounded focus:outline-none text-gray-800 text-xl" />
+                       class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none text-gray-800 text-l" />
                 <button id="copy-btn"
                         class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded text-xl transition">
                   Copy
