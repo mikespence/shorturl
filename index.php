@@ -23,7 +23,7 @@
     <h1 class="text-7xl font-bold text-green-700 mb-16 text-center">ShortQR</h1>
     
     <!-- Form Container (scaled up 10%) -->
-    <div class="transform scale-110">
+    <div class="transform w-50">
       <form id="shorten-form" class="space-y-4">
         <!-- Big URL Input with Large Button -->
         <div class="w-full flex items-center relative">
@@ -33,6 +33,7 @@
             placeholder="Enter your link here" 
             required
             class="w-full rounded-full border-4 border-green-500 px-8 py-6 text-3xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+            value="<?php echo $_GET['u']; ?>"
           />
           <button 
             type="submit" 
@@ -54,6 +55,7 @@
               placeholder="Enter your email" 
               required
               class="rounded-full border-4 border-gray-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+              value="<?php echo $_GET['e']; ?>"
             />
           </div>
           <!-- Custom Short Code Field with Prefix -->
@@ -101,27 +103,28 @@
         if (data.error) {
           resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
         } else {
+          window.location.href = data.update_url;
           console.log(data);
-          // Hide the form once the link has been created
-          form.style.display = "none";
-          resultDiv.innerHTML = `
-            <p class="mb-4 text-center">
-              <a href="${data.short_url}" class="text-blue-500 underline">${data.short_url}</a>
-            </p>
-            <img src="${data.qr_code}" alt="QR Code" class="mx-auto mb-4">
-            <p class="text-gray-600 text-center">Your URL has been shortened!</p>
-            <p class="text-gray-500 text-center">Update your URL later at <a href="${data.update_url}" class="underline">${data.update_url}</a></p>
-            <button id="new-link" class="mt-4 w-full bg-green-500 text-white py-4 rounded-full transition duration-300 text-xl">Create Another Link</button>
-          `;
+          // // Hide the form once the link has been created
+          // form.style.display = "none";
+          // resultDiv.innerHTML = `
+          //   <p class="mb-4 text-center">
+          //     <a href="${data.short_url}" class="text-blue-500 underline">${data.short_url}</a>
+          //   </p>
+          //   <img src="${data.qr_code}" alt="QR Code" class="mx-auto mb-4 w-xs scale-25">
+          //   <p class="text-gray-600 text-center">Your URL has been shortened!</p>
+          //   <p class="text-gray-500 text-center">Update your URL later at <a href="${data.update_url}" class="underline">${data.update_url}</a></p>
+          //   <button id="new-link" class="mt-4 w-full bg-green-500 text-white py-4 rounded-full transition duration-300 text-xl">Create Another Link</button>
+          // `;
           
           // Set up the "Create Another Link" button to show the form again
-          document.getElementById("new-link").addEventListener("click", function() {
-            // Clear the result div
-            resultDiv.innerHTML = "";
-            // Show and reset the form
-            form.style.display = "block";
-            form.reset();
-          });
+          // document.getElementById("new-link").addEventListener("click", function() {
+          //   // Clear the result div
+          //   resultDiv.innerHTML = "";
+          //   // Show and reset the form
+          //   form.style.display = "block";
+          //   form.reset();
+          // });
         }
       })
       .catch(err => {

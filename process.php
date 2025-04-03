@@ -3,6 +3,7 @@
 require 'config.php';
 require 'filter.php';
 require 'vendor/autoload.php';  // Now includes endroid/qr-code
+require 'qr_functions.php';
 
 // Generate QR code using endroid/qr-code
 use Endroid\QrCode\QrCode;
@@ -75,13 +76,6 @@ $short_url = $base_url . "/" . $short_code;
 // Create a nicer update URL using the /u/ route (make sure your .htaccess routes /u/SHORTCODE to update.php)
 $update_url = $base_url . "/u/" . $short_code;
 
-// Generate the QR code for the short URL
-$qrCode = new QrCode(urlencode($short_url));
-$writer = new PngWriter();
-$result = $writer->write($qrCode);
-$qrImageData = $result->getString(); // Binary data for the QR image
-
-
 // Send email via SendGrid
 $emailObj = new \SendGrid\Mail\Mail();
 $emailObj->setFrom("no-reply@shortqr.app", "ShortQR");
@@ -107,7 +101,7 @@ try {
 $response = [
     'short_url' => $short_url,
     'update_url' => $update_url,
-    'qr_code' => $result->getDataUri()
+    'qr_code' => generateQrCode($short_url)
 ];
 
 echo json_encode($response);

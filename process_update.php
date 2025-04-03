@@ -2,10 +2,13 @@
 // process_update.php
 require 'config.php';
 require 'vendor/autoload.php'; // Make sure this loads your Endroid QR Code library
+require 'qr_functions.php';
 
-use Endroid\QrCode\QrCode;
+
+use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 use SendGrid\Mail\Mail;
+
 
 header("Content-Type: application/json");
 
@@ -36,17 +39,11 @@ $base_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['
 $short_url = $base_url . "/" . $short_code;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Generate the QR code for the short URL using your known working snippet.
-    $qrCode = new QrCode(urlencode($short_url));
-    // $qrCode->setSize(1000); // Sets the QR code to 1000x1000 pixels
-    $writer = new PngWriter();
-    $result = $writer->write($qrCode);
-    $qrImageData = $result->getString(); // Binary data for the QR image
 
-    // Convert binary data to a data URI for embedding in HTML
-    $qrDataUri = "data:image/png;base64," . base64_encode($qrImageData);
-    
+    $qrDataUri = generateQrCode($short_url);
+
     echo json_encode([
+        'short_url' => $short_url,
         'original_url' => $decrypted_url,
         'visit_count'  => $link['visit_count'],
         'qr_code'  => $qrDataUri

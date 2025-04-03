@@ -1,205 +1,121 @@
 <?php
-// update.php – QR on the left, details on the right
-$code = isset($_GET['code']) ? $_GET['code'] : '';
+// update.php
+// We'll assume there's a "code" parameter in the URL, e.g. update.php?code=ABC123
+$short_code = isset($_GET['code']) ? $_GET['code'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8">
-  <title>Update Your URL</title>
-  <!-- Google Font: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>ShortQR</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-    }
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border-left-color: #10B981; /* Green-500 */
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #d4f2cc, #e8fce9);
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-green-200 to-green-50 flex flex-col items-center justify-center">
+<body class="min-h-screen flex flex-col items-center justify-center">
+  <div class="max-w-3xl w-full bg-white rounded-xl shadow-lg p-8">
+    <h1 class="text-4xl font-bold text-center text-green-700 mb-8">ShortQR</h1>
 
-  <!-- Main Container -->
-  <div class="w-full max-w-5xl px-6 flex flex-col items-center">
-    <!-- Heading -->
-    <h1 class="text-7xl font-bold text-green-700 mb-12 text-center">ShortQR</h1>
-    
-    <!-- White Card: QR on left, details on right -->
-    <div class="w-full max-w-3xl bg-white bg-opacity-80 rounded-3xl p-8 mb-12 shadow-lg">
-      <div id="spinner" class="hidden mb-6 flex justify-center">
-        <div class="spinner"></div>
-      </div>
-      <div class="flex flex-col md:flex-row items-center md:items-start justify-center space-y-6 md:space-y-0 md:space-x-8">
-        
-        <!-- QR Code on Left -->
-        <div id="qr-code-container" class="flex justify-center md:w-1/3">
-          <!-- Filled dynamically -->
-        </div>
-        
-        <!-- Details on Right -->
-        <div class="md:w-2/3 space-y-4" id="details-right">
-          <div id="current-details" class="space-y-2">
-            <!-- Current URL, visits -->
-          </div>
-          <div id="copy-url-container">
-            <!-- Short URL + copy button -->
-          </div>
-          <div id="details-error" class="text-red-500"></div>
-        </div>
-      </div>
+    <!-- This is where we display the info loaded via JS -->
+    <div id="info-container" class="mb-6">
+      <!-- We will populate this dynamically with the data from process_update.php?code=SHORTCODE -->
+      <p id="loading-msg" class="text-center text-gray-600">Loading info...</p>
     </div>
 
-    <!-- Update Form (scaled up for bigger fields) -->
-    <div class="transform scale-110 w-full max-w-3xl">
-      <form id="update-form" class="space-y-10">
-        <!-- Large row for New URL -->
-        <div class="w-full flex items-center relative">
-          <input 
-            type="url" 
-            name="new_url" 
-            placeholder="Enter your new URL" 
-            required
-            class="w-full rounded-full border-4 border-green-500 px-8 py-5 text-3xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
-          />
-          <button 
-            type="submit" 
-            class="absolute right-0 mr-2 bg-green-600 hover:bg-green-700 text-white font-bold px-12 py-4 rounded-full text-3xl transition duration-300"
-          >
-            Update
-          </button>
-        </div>
-
-        <!-- Side-by-Side Email & Passcode -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-          <!-- Email Field -->
-          <div class="flex flex-col">
-            <label for="email" class="text-gray-700 font-semibold text-2xl mb-3">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              placeholder="Enter your email" 
-              required
-              class="rounded-full border-4 border-green-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
-            />
-          </div>
-          <!-- Passcode Field -->
-          <div class="flex flex-col">
-            <label for="passcode" class="text-gray-700 font-semibold text-2xl mb-3">Passcode</label>
-            <input 
-              type="password" 
-              id="passcode" 
-              name="passcode" 
-              placeholder="Enter your passcode"
-              required
-              class="rounded-full border-4 border-green-300 px-6 py-4 text-2xl focus:outline-none focus:ring-4 focus:ring-green-400 transition"
-            />
-          </div>
-        </div>
-      </form>
-      <div id="result" class="mt-6 text-center"></div>
-    </div>
-
+    <!-- Short URL + Copy Button -->
   </div>
 
+  <!-- JavaScript to load info from process_update.php and populate the page -->
   <script>
-    const shortCode = "<?php echo htmlspecialchars($code); ?>";
-    const spinner = document.getElementById("spinner");
-    const currentDetailsDiv = document.getElementById("current-details");
-    const copyUrlContainer = document.getElementById("copy-url-container");
-    const qrCodeContainer = document.getElementById("qr-code-container");
-    const detailsErrorDiv = document.getElementById("details-error");
-    const updateForm = document.getElementById("update-form");
-    const resultDiv = document.getElementById("result");
-
+    const shortCode = "<?= htmlspecialchars($short_code) ?>";
     if (!shortCode) {
-      detailsErrorDiv.innerText = "No code provided in URL.";
+      document.getElementById('loading-msg').textContent = "No code provided.";
     } else {
-      spinner.classList.remove("hidden");
+      // Fetch the data from process_update.php?code=SHORTCODE (GET request)
       fetch(`/process_update.php?code=${shortCode}`)
         .then(response => response.json())
         .then(data => {
+          const infoContainer = document.getElementById('info-container');
+          const loadingMsg = document.getElementById('loading-msg');
+          loadingMsg.remove(); // Remove the "Loading info..." message
           console.log(data);
-          spinner.classList.add("hidden");
           if (data.error) {
-            detailsErrorDiv.innerText = data.error;
-          } else {
-            // Current URL & Visits
-            currentDetailsDiv.innerHTML = `
-              <p class="text-2xl"><strong>Current URL:</strong>
-                <a href="${data.original_url}" target="_blank" class="text-green-600 underline">${data.original_url}</a>
-              </p>
-              <p class="text-2xl"><strong>Visits: </strong><span class="text-green-600">${data.visit_count}</span></p>
-            `;
-            // Short URL + copy
-            const shortURL = window.location.protocol + '//' + window.location.host + '/' + shortCode;
-            copyUrlContainer.innerHTML = `
-              <p><span class="font-bold text-xl">Short URL</span></p>
-              <div class="flex items-center justify-center space-x-4">
-                <input id="short-url" type="text" value="${shortURL}" readonly
-                       class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none text-gray-800 text-l" />
-                <button id="copy-btn"
-                        class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded text-xl transition">
-                  Copy
-                </button>
-              </div>
-            `;
-            document.getElementById("copy-btn").addEventListener("click", function() {
-              const copyText = document.getElementById("short-url");
-              copyText.select();
-              navigator.clipboard.writeText(copyText.value).then(() => {
-                this.innerText = "Copied!";
-                setTimeout(() => { this.innerText = "Copy"; }, 2000);
-              });
-            });
-            // QR Code
-            qrCodeContainer.innerHTML = `
-              <img src="${data.qr_code}" alt="QR Code"
-                   class="mx-auto rounded-md shadow-md transition-transform duration-300 hover:scale-105" />
-            `;
+            infoContainer.innerHTML = `<p class="text-red-500 text-center">${data.error}</p>`;
+            return;
           }
+
+          // data.original_url, data.visit_count, data.qr_code
+          // Create a nice layout for the QR code + details
+          infoContainer.innerHTML = `
+            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-6 space-y-6 md:space-y-0 justify-center">
+              <!-- QR Code + Download -->
+              <div class="flex flex-col items-center space-y-3">
+                <img src="${data.qr_code}" alt="QR Code" class="w-40 h-40 rounded-md shadow-md" />
+                <a href="${data.qr_code}" download="${shortCode}.png" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition text-lg">
+                  <i class="fa-solid fa-download mr-2"></i>Download QR
+                </a>
+              </div>
+              <!-- Details -->
+              <div class="space-y-2 text-center md:text-left">
+                <p class="text-lg">
+                  <span class="font-semibold">Redirecting to: </span>
+                  <a href="${data.original_url}" target="_blank" class="text-green-600 underline">${data.original_url}</a>
+                </p>
+                <p class="text-lg"><span class="font-semibold">Visits:</span> <span class="text-green-600 font-semibold">${data.visit_count}</span></p>
+                <p class="text-lg font-semibold">Short URL</p>
+                <div class="flex items-center space-x-2">
+                  <input
+                    id="short-url"
+                    type="text"
+                    value="${data.short_url}"
+                    readonly
+                    class="w-full py-2 border-none border-gray-300 rounded focus:outline-none text-gray-800 text-lg"
+                  />
+                  <button
+                    id="copy-btn"
+                    class="inline-flex items-center px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded transition text-lg"
+                  >
+                    <i class="fa-regular fa-copy mr-2"></i>Copy
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Also populate the short URL in the input for copying
+          const shortUrlSection = document.getElementById('short-url-section');
+          const shortUrlInput = document.getElementById('short-url');
+          // We'll guess the short URL is your domain + shortCode
+          // Or you can parse data if you prefer
+          const shortUrl = data.short_url;
+          shortUrlInput.value = shortUrl;
         })
-        .catch(error => {
-          spinner.classList.add("hidden");
-          detailsErrorDiv.innerText = "Error fetching data.";
-          console.error(error);
+        .catch(err => {
+          document.getElementById('info-container').innerHTML = `<p class="text-red-500 text-center">Error loading info.</p>`;
+          console.error(err);
         });
     }
 
-    // Handle Update Submission
-    updateForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(updateForm);
-      fetch(`/process_update.php?code=${shortCode}`, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          resultDiv.innerHTML = `<p class="text-red-500">${data.error}</p>`;
-        } else if (data.message) {
-          resultDiv.innerHTML = `<p class="text-green-700 text-2xl">${data.message}</p>`;
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        resultDiv.innerHTML = '<p class="text-red-500">Error updating URL.</p>';
-      });
+    // Handle the copy button
+    document.addEventListener("click", function(e) {
+      const btn = e.target.closest("#copy-btn");
+      if (btn) {
+        const copyText = document.getElementById("short-url");
+        navigator.clipboard.writeText(copyText.value).then(() => {
+          btn.innerHTML = '<i class="fa-regular fa-copy mr-2"></i>Copied!';
+          setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy mr-2"></i>Copy'; }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy:', err);
+        });
+      }
     });
   </script>
-
 </body>
 </html>
