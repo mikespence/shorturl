@@ -85,9 +85,9 @@ $emailObj->addTo($email);  // The recipient email address
 $emailContent = "Hello,\n\n"
     . "Your short URL has been created successfully.\n\n"
     . "Short URL: $short_url\n"
-    // . "Update URL: $update_url\n"
-    // . "Your update passcode: $passcode_plain\n\n"
-    // . "Keep this information safe. You will need the email and passcode to update your URL later.\n\n";
+    . "Stats & Download URL: $update_url\n"
+    . "Your passcode: $passcode_plain\n\n"
+    . "Keep this information safe. You will need it to access the Stats page.\n\n";
 $emailObj->addContent("text/plain", $emailContent);
 
 $sendgrid = new \SendGrid($sendgrid_api_key);
