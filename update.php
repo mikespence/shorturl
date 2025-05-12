@@ -76,7 +76,7 @@ $short_code = isset($_GET['code']) ? $_GET['code'] : '';
                     type="text"
                     value="${data.short_url}"
                     readonly
-                    class="py-2 border-none border-gray-300 rounded focus:outline-none text-gray-800 text-lg"
+                    class="w-full py-2 border-none border-gray-300 rounded focus:outline-none text-gray-800 text-lg"
                   />
                   <button
                     id="copy-btn"
