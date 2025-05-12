@@ -54,9 +54,9 @@ $short_code = isset($_GET['code']) ? $_GET['code'] : '';
           // data.original_url, data.visit_count, data.qr_code
           // Create a nice layout for the QR code + details
           infoContainer.innerHTML = `
-            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-6 space-y-6 md:space-y-0 justify-center">
+            <div class=" items-center md:items-start md:space-x-6 space-y-6 md:space-y-0 justify-center">
               <!-- QR Code + Download -->
-              <div class="flex flex-col items-center space-y-3">
+              <div class="flex flex-col items-center space-y-3 mb-5">
                 <img src="${data.qr_code}" alt="QR Code" class="w-40 h-40 rounded-md shadow-md" />
                 <a href="${data.qr_code}" download="${shortCode}.png" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition text-lg">
                   <i class="fa-solid fa-download mr-2"></i>Download QR
@@ -64,7 +64,7 @@ $short_code = isset($_GET['code']) ? $_GET['code'] : '';
               </div>
               <!-- Details -->
               <div class="space-y-2 text-center md:text-left">
-                <p class="text-lg">
+                <p class="text-lg text-lg truncate w-full block">
                   <span class="font-semibold">Redirecting to: </span>
                   <a href="${data.original_url}" target="_blank" class="text-green-600 underline">${data.original_url}</a>
                 </p>
@@ -76,7 +76,7 @@ $short_code = isset($_GET['code']) ? $_GET['code'] : '';
                     type="text"
                     value="${data.short_url}"
                     readonly
-                    class="w-full py-2 border-none border-gray-300 rounded focus:outline-none text-gray-800 text-lg"
+                    class="py-2 border-none border-gray-300 rounded focus:outline-none text-gray-800 text-lg"
                   />
                   <button
                     id="copy-btn"
